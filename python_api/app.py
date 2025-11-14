@@ -5,7 +5,7 @@ import requests
 # Configuração fixa da PushinPay
 PUSHINPAY_TOKEN = os.getenv("PUSHINPAY_TOKEN", "43868|KDTirIabgqJOrQHPEeUzkja97Mx18xhlMf8JrQDnb8a5822a")
 PUSHINPAY_BASE = os.getenv("PUSHINPAY_BASE", "https://api.pushinpay.com.br")
-FRONTEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "public"))
+FRONTEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "public"))
 
 app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="")
 
@@ -31,7 +31,7 @@ def gerar_pix():
     except Exception:
         value_num = None
     if value_num is None or value_num <= 0:
-        return jsonify({"error": "amountBRL obrigatório"}), 400  # mantém a msg que você viu
+        return jsonify({"error": "amountBRL obrigatório"}), 400
 
     webhook_url = data.get("webhook_url")
     split_rules = data.get("split_rules", [])
@@ -88,6 +88,3 @@ def static_files(filename):
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "5000"))
     app.run(host="0.0.0.0", port=port, debug=True)
-# This code is part of a Flask application that interacts with the PushinPay API to generate PIX transactions and check their status.
-# It includes endpoints for creating a PIX transaction and checking the status of a transaction by its ID.
-# The application serves static files from a public directory and handles errors gracefully.    
